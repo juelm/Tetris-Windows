@@ -25,6 +25,7 @@ namespace Tetris
         private Scoreboard level;
         private Nextboard next;
         private HighScoreBoard highScoreBoard;
+        private string resetScreen;
 
 
 
@@ -163,7 +164,6 @@ namespace Tetris
         }
 
     }
-
 
 
 

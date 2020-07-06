@@ -128,6 +128,29 @@ namespace Tetris
 
 
 
+        //Clears Main screen without clearing entire console.  Improves performance on Windows.
+        private void clearMainScreen()
+        {
+            foreach (Block b in state)
+            {
+                b.erase();
+
+            }
+        }
+
+        //Renders the blocks that are currently in play.
+
+        private void renderState()
+        {
+            foreach (Block b in state)
+            {
+                b.inflate();
+                b.draw();
+
+            }
+        }
+
+
         //-----------------------------------Primary Logic-------------------------------------
 
         //Processes input from user and events to control game, move blocks, detect collisions.
@@ -184,6 +207,8 @@ namespace Tetris
                         {
                             if (delay == 1) //Pauses fall for one cycle upon contact with surface below to allow player to slide block under another
                             {
+                                clearMainScreen();
+
                                 foreach (Block blk in current.getBlocks())
                                 {
                                     state.Add(blk);
@@ -191,14 +216,16 @@ namespace Tetris
 
                                 Lines();
 
-                                Console.Clear();
+                                //Console.Clear();
 
-                                foreach (Block b in state)
-                                {
-                                    b.inflate();
-                                    b.draw();
+                                //foreach (Block b in state)
+                                //{
+                                //    b.inflate();
+                                //    b.draw();
 
-                                }
+                                //}
+
+                                renderState();
 
 
                                 current = new Shape(board.SpawnPoint.X - Block.Width, board.SpawnPoint.Y, nextRando);
@@ -217,7 +244,10 @@ namespace Tetris
                                     nextLevel = 0;
                                     level++;
                                     levelUp();
+                                    Console.Clear();
                                     board.drawBoard();
+                                    renderState();
+
                                     setStats();
                                 }
 
@@ -356,12 +386,14 @@ namespace Tetris
             foreach (Block b in toDelete)
             {
                 state.Remove(b);
-
                 b.erase();
             }
 
 
             debrisFall(fallingBlocks, localLines);
+            Console.Clear();
+            board.drawBoard();
+            renderState();
 
         }
 
@@ -451,12 +483,18 @@ namespace Tetris
             int messY = height / 2;
             int line2X = length > line2.Length ? (length - line2.Length) / 2 : 0;
 
+
             timerCounter = 0;
             timer.Interval = ms / 4;
             timer.Elapsed -= OnTimedEvent;
+            Console.Clear();
+            board.drawBoard();
+            renderState();
             timer.Elapsed += new ElapsedEventHandler(UponMyDeath);
 
-            
+
+
+
             while (timerCounter < board.Height)
             { 
                 int YCursor = board.Start.X + timerCounter;
