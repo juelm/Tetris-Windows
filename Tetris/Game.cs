@@ -32,6 +32,7 @@ namespace Tetris
         bool notDead = true;
 
 
+
         public Game(int x, int y, int height, int width, int ms)
         {
             this.x = x;
@@ -89,11 +90,10 @@ namespace Tetris
                     if (!notDead) break;
 
                 if (!notDead) break;
-                
+
                 userInput = Console.ReadKey().Key;
 
                 notDead = processInput(userInput); // Returns a bool determining whether or not the game is over, which governs the loop.
-                    
             }
 
             //Receives user's decision to play or quit after game and returns to Program class.
@@ -207,6 +207,7 @@ namespace Tetris
                         {
                             if (delay == 1) //Pauses fall for one cycle upon contact with surface below to allow player to slide block under another
                             {
+                                
                                 clearMainScreen();
 
                                 foreach (Block blk in current.getBlocks())
@@ -215,15 +216,6 @@ namespace Tetris
                                 }
 
                                 Lines();
-
-                                //Console.Clear();
-
-                                //foreach (Block b in state)
-                                //{
-                                //    b.inflate();
-                                //    b.draw();
-
-                                //}
 
                                 renderState();
 
@@ -260,7 +252,7 @@ namespace Tetris
                                     notDead = alive;
                                     return alive;
                                 }
-
+                              
                             }
 
                             else
@@ -335,7 +327,6 @@ namespace Tetris
             }
 
             if (!lineCompleted) return;
-
 
             //Count the number of completed lines
 
